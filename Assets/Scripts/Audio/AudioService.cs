@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rumbax.Core;
 using Rumbax.Core.Events;
-using Rumbax.Core.Services.Interfaces;
+using Rumbax.Core.Services;
 using Rumbax.Data;
 
 namespace Rumbax.Audio

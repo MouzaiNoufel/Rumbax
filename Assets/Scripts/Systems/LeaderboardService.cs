@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Rumbax.Core;
-using Rumbax.Core.Services.Interfaces;
+using Rumbax.Core.Services;
 
 namespace Rumbax.Systems
 {

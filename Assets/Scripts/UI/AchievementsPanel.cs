@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Rumbax.Core;
 using Rumbax.Core.Events;
-using Rumbax.Core.Services.Interfaces;
+using Rumbax.Core.Services;
 using Rumbax.Systems;
 
 namespace Rumbax.UI

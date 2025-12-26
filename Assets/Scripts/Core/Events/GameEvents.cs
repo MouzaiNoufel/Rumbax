@@ -251,4 +251,57 @@ namespace Rumbax.Core.Events
             Tier = tier;
         }
     }
+
+    /// <summary>
+    /// Event fired when an enemy is killed.
+    /// </summary>
+    public class EnemyKilledEvent : IGameEvent
+    {
+        public string EnemyId { get; }
+        public string EnemyType { get; }
+        public long CoinsDropped { get; }
+        public bool IsBoss { get; }
+
+        public EnemyKilledEvent(string enemyId, string enemyType, long coins, bool isBoss = false)
+        {
+            EnemyId = enemyId;
+            EnemyType = enemyType;
+            CoinsDropped = coins;
+            IsBoss = isBoss;
+        }
+    }
+
+    /// <summary>
+    /// Event fired when an ad is watched.
+    /// </summary>
+    public class AdWatchedEvent : IGameEvent
+    {
+        public string AdType { get; }
+        public string Placement { get; }
+        public bool WasRewarded { get; }
+
+        public AdWatchedEvent(string adType, string placement, bool wasRewarded = false)
+        {
+            AdType = adType;
+            Placement = placement;
+            WasRewarded = wasRewarded;
+        }
+    }
+
+    /// <summary>
+    /// Event fired when a purchase is completed.
+    /// </summary>
+    public class PurchaseCompletedEvent : IGameEvent
+    {
+        public string ProductId { get; }
+        public string ProductType { get; }
+        public decimal Amount { get; }
+
+        public PurchaseCompletedEvent(string productId, string productType, decimal amount = 0)
+        {
+            ProductId = productId;
+            ProductType = productType;
+            Amount = amount;
+        }
+    }
 }
