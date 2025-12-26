@@ -50,6 +50,9 @@ namespace Rumbax.Systems
         [Header("Settings")]
         [SerializeField] private bool _useGooglePlayGames = true;
 
+        // IAchievementService interface event
+        public event Action<string> OnAchievementUnlocked;
+
         private Dictionary<string, Achievement> _achievements = new Dictionary<string, Achievement>();
         private PlayerData _playerData;
         private ISaveService _saveService;
@@ -332,14 +335,8 @@ namespace Rumbax.Systems
                 { "category", achievement.Category.ToString() }
             });
 
-            EventBus.Publish(new AchievementUnlockedEvent
-            {
-                AchievementId = achievementId,
-                Title = achievement.Title,
-                Description = achievement.Description,
-                CoinReward = achievement.CoinReward,
-                GemReward = achievement.GemReward
-            });
+            EventBus.Publish(new AchievementUnlockedEvent(achievementId, achievement.Title));
+            OnAchievementUnlocked?.Invoke(achievementId);
         }
 
         private void ReportToGooglePlay(string achievementId)
@@ -385,12 +382,7 @@ namespace Rumbax.Systems
                 { "gems", achievement.GemReward }
             });
 
-            EventBus.Publish(new AchievementRewardClaimedEvent
-            {
-                AchievementId = achievementId,
-                Coins = achievement.CoinReward,
-                Gems = achievement.GemReward
-            });
+            EventBus.Publish(new AchievementRewardClaimedEvent(achievementId, achievement.CoinReward, achievement.GemReward));
 
             return true;
         }
@@ -456,6 +448,52 @@ namespace Rumbax.Systems
                 Debug.Log("[Achievement] Google Play not available, show in-game UI");
                 EventBus.Publish(new ShowAchievementsUIEvent());
             }
+        }
+
+        // IAchievementService interface implementations
+        public void Initialize()
+        {
+            InitializeAchievements();
+            LoadProgress();
+            SubscribeToEvents();
+            if (_useGooglePlayGames)
+            {
+                InitializeGooglePlayGames();
+            }
+        }
+
+        public void IncrementAchievement(string achievementId, int steps)
+        {
+            IncrementProgress(achievementId, steps);
+        }
+
+        public void GetAchievements(Action<List<AchievementData>> callback)
+        {
+            var dataList = new List<AchievementData>();
+            foreach (var kvp in _achievements)
+            {
+                var a = kvp.Value;
+                dataList.Add(new AchievementData
+                {
+                    Id = a.Id,
+                    Name = a.Title,
+                    Description = a.Description,
+                    IsUnlocked = a.IsUnlocked,
+                    Progress = (float)a.CurrentProgress / a.TargetValue,
+                    CurrentSteps = a.CurrentProgress,
+                    TotalSteps = a.TargetValue
+                });
+            }
+            callback?.Invoke(dataList);
+        }
+
+        public bool IsUnlocked(string achievementId)
+        {
+            if (_achievements.TryGetValue(achievementId, out var achievement))
+            {
+                return achievement.IsUnlocked;
+            }
+            return false;
         }
 
         // Event handlers
@@ -555,22 +593,20 @@ namespace Rumbax.Systems
         }
     }
 
-    // Achievement events
-    public class AchievementUnlockedEvent
+    // Achievement events (using Rumbax.Core.Events.AchievementUnlockedEvent)
+    public class AchievementRewardClaimedEvent : IGameEvent
     {
-        public string AchievementId;
-        public string Title;
-        public string Description;
-        public int CoinReward;
-        public int GemReward;
+        public string AchievementId { get; }
+        public int Coins { get; }
+        public int Gems { get; }
+
+        public AchievementRewardClaimedEvent(string id, int coins, int gems)
+        {
+            AchievementId = id;
+            Coins = coins;
+            Gems = gems;
+        }
     }
 
-    public class AchievementRewardClaimedEvent
-    {
-        public string AchievementId;
-        public int Coins;
-        public int Gems;
-    }
-
-    public class ShowAchievementsUIEvent { }
+    public class ShowAchievementsUIEvent : IGameEvent { }
 }

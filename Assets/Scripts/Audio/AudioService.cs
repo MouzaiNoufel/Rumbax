@@ -119,6 +119,33 @@ namespace Rumbax.Audio
         [SerializeField] private float _masterVolume = 1f;
         [SerializeField] private float _musicVolume = 0.7f;
         [SerializeField] private float _sfxVolume = 1f;
+        private bool _isMusicMuted;
+        private bool _isSfxMuted;
+
+        // IAudioService interface properties
+        public float MusicVolume
+        {
+            get => _musicVolume;
+            set { _musicVolume = Mathf.Clamp01(value); UpdateVolumes(); SaveSettings(); }
+        }
+
+        public float SfxVolume
+        {
+            get => _sfxVolume;
+            set { _sfxVolume = Mathf.Clamp01(value); SaveSettings(); }
+        }
+
+        public bool IsMusicMuted
+        {
+            get => _isMusicMuted;
+            set { _isMusicMuted = value; _musicSource.mute = value; SaveSettings(); }
+        }
+
+        public bool IsSfxMuted
+        {
+            get => _isSfxMuted;
+            set { _isSfxMuted = value; SaveSettings(); }
+        }
 
         private Dictionary<SoundType, SoundConfig> _soundLookup = new Dictionary<SoundType, SoundConfig>();
         private Dictionary<MusicType, MusicConfig> _musicLookup = new Dictionary<MusicType, MusicConfig>();
@@ -424,6 +451,44 @@ namespace Rumbax.Audio
             _musicSource.UnPause();
         }
 
+        // IAudioService interface implementations (string-based)
+        void IAudioService.PlayMusic(string clipName)
+        {
+            if (Enum.TryParse<MusicType>(clipName, true, out var musicType))
+            {
+                PlayMusic(musicType, true);
+            }
+            else
+            {
+                Debug.LogWarning($"[Audio] Unknown music type: {clipName}");
+            }
+        }
+
+        void IAudioService.StopMusic()
+        {
+            StopMusic(true);
+        }
+
+        void IAudioService.PlaySfx(string clipName)
+        {
+            if (Enum.TryParse<SoundType>(clipName, true, out var soundType))
+            {
+                PlaySound(soundType);
+            }
+            else
+            {
+                Debug.LogWarning($"[Audio] Unknown sound type: {clipName}");
+            }
+        }
+
+        void IAudioService.PlaySfxOneShot(string clipName)
+        {
+            if (Enum.TryParse<SoundType>(clipName, true, out var soundType))
+            {
+                PlaySound(soundType);
+            }
+        }
+
         /// <summary>
         /// Set master volume.
         /// </summary>
@@ -478,7 +543,7 @@ namespace Rumbax.Audio
         // Event handlers
         private void OnCurrencyChanged(CurrencyChangedEvent evt)
         {
-            if (evt.Amount > 0)
+            if (evt.Delta > 0)
             {
                 if (evt.Type == CurrencyType.Coins)
                 {

@@ -253,6 +253,23 @@ namespace Rumbax.Core.Events
     }
 
     /// <summary>
+    /// Event fired when the game is over (player lost).
+    /// </summary>
+    public class GameOverEvent : IGameEvent
+    {
+        public int FinalLevel { get; }
+        public long FinalScore { get; }
+        public string Reason { get; }
+
+        public GameOverEvent(int level, long score, string reason = "Enemies reached base")
+        {
+            FinalLevel = level;
+            FinalScore = score;
+            Reason = reason;
+        }
+    }
+
+    /// <summary>
     /// Event fired when an enemy is killed.
     /// </summary>
     public class EnemyKilledEvent : IGameEvent

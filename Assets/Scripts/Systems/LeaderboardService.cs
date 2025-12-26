@@ -19,19 +19,6 @@ namespace Rumbax.Systems
     }
 
     /// <summary>
-    /// Represents a leaderboard entry.
-    /// </summary>
-    [System.Serializable]
-    public class LeaderboardEntry
-    {
-        public int Rank;
-        public string PlayerId;
-        public string PlayerName;
-        public long Score;
-        public string AvatarUrl;
-    }
-
-    /// <summary>
     /// Manages leaderboards and Google Play Games integration.
     /// </summary>
     public class LeaderboardService : MonoBehaviour, ILeaderboardService
@@ -60,6 +47,55 @@ namespace Rumbax.Systems
         private void Awake()
         {
             ServiceLocator.Register<ILeaderboardService>(this);
+        }
+
+        // IAudioService interface implementations
+        public void Initialize()
+        {
+            if (_useGooglePlayGames)
+            {
+                InitializeGooglePlayGames();
+            }
+        }
+
+        public void SubmitScore(string leaderboardId, long score, Action<bool> callback = null)
+        {
+            Debug.Log($"[Leaderboard] Submitting score {score} to {leaderboardId}");
+            // Simulated success
+            callback?.Invoke(true);
+        }
+
+        public void GetTopScores(string leaderboardId, int count, Action<List<LeaderboardEntry>> callback)
+        {
+            // Return simulated data
+            var entries = new List<LeaderboardEntry>();
+            for (int i = 0; i < count && i < 10; i++)
+            {
+                entries.Add(new LeaderboardEntry
+                {
+                    Rank = i + 1,
+                    PlayerId = $"player_{i}",
+                    PlayerName = $"Player {i + 1}",
+                    Score = 10000 - i * 500
+                });
+            }
+            callback?.Invoke(entries);
+        }
+
+        public void GetPlayerScore(string leaderboardId, Action<LeaderboardEntry> callback)
+        {
+            callback?.Invoke(new LeaderboardEntry
+            {
+                Rank = UnityEngine.Random.Range(100, 10000),
+                PlayerId = "local_player",
+                PlayerName = "Player",
+                Score = 5000
+            });
+        }
+
+        public void ShowLeaderboardUI(string leaderboardId = null)
+        {
+            ShowLeaderboard();
         }
 
         private void Start()
