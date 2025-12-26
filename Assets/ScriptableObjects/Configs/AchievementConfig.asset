@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0, type: 0}
+  m_Name: AchievementConfig
+  m_EditorClassIdentifier: 
+  achievements:
+  - achievementId: first_blood
+    displayName: First Blood
+    description: Defeat your first enemy
+    targetValue: 1
+    rewardGems: 10
+    rewardGold: 100
+    achievementType: 0
+  - achievementId: wave_5
+    displayName: Wave Survivor
+    description: Complete wave 5
+    targetValue: 5
+    rewardGems: 25
+    rewardGold: 500
+    achievementType: 1
+  - achievementId: wave_25
+    displayName: Battle Hardened
+    description: Complete wave 25
+    targetValue: 25
+    rewardGems: 100
+    rewardGold: 2500
+    achievementType: 1
+  - achievementId: wave_50
+    displayName: Legendary Commander
+    description: Complete wave 50
+    targetValue: 50
+    rewardGems: 500
+    rewardGold: 10000
+    achievementType: 1
+  - achievementId: merge_10
+    displayName: Merger Beginner
+    description: Merge 10 defenders
+    targetValue: 10
+    rewardGems: 15
+    rewardGold: 200
+    achievementType: 2
+  - achievementId: merge_100
+    displayName: Merge Master
+    description: Merge 100 defenders
+    targetValue: 100
+    rewardGems: 75
+    rewardGold: 1500
+    achievementType: 2
+  - achievementId: max_level
+    displayName: Maximum Power
+    description: Reach max level on a defender
+    targetValue: 1
+    rewardGems: 50
+    rewardGold: 1000
+    achievementType: 3
+  - achievementId: all_types
+    displayName: Collector
+    description: Unlock all defender types
+    targetValue: 6
+    rewardGems: 100
+    rewardGold: 2000
+    achievementType: 4

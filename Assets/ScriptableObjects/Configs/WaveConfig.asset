@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0, type: 0}
+  m_Name: WaveConfig
+  m_EditorClassIdentifier: 
+  waveConfigs:
+  - waveNumber: 1
+    enemyCount: 5
+    spawnInterval: 1.5
+    enemyTypes: [0]
+    waveReward: 50
+  - waveNumber: 2
+    enemyCount: 7
+    spawnInterval: 1.4
+    enemyTypes: [0, 0, 1]
+    waveReward: 60
+  - waveNumber: 3
+    enemyCount: 10
+    spawnInterval: 1.3
+    enemyTypes: [0, 1]
+    waveReward: 75
+  - waveNumber: 4
+    enemyCount: 12
+    spawnInterval: 1.2
+    enemyTypes: [0, 1, 2]
+    waveReward: 90
+  - waveNumber: 5
+    enemyCount: 15
+    spawnInterval: 1.0
+    enemyTypes: [0, 1, 2, 3]
+    waveReward: 150
+    isBossWave: 1
+  difficultyScaling: 1.15
+  healthScalingPerWave: 1.1
+  goldScalingPerWave: 1.05

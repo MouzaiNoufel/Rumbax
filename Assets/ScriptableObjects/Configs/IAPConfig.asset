@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0, type: 0}
+  m_Name: IAPConfig
+  m_EditorClassIdentifier: 
+  products:
+  - productId: com.rumbax.gems_100
+    displayName: Gem Pouch
+    description: 100 Gems
+    price: 0.99
+    gemAmount: 100
+    productType: 0
+  - productId: com.rumbax.gems_500
+    displayName: Gem Bag
+    description: 500 Gems + 50 Bonus
+    price: 4.99
+    gemAmount: 550
+    productType: 0
+  - productId: com.rumbax.gems_1200
+    displayName: Gem Chest
+    description: 1200 Gems + 200 Bonus
+    price: 9.99
+    gemAmount: 1400
+    productType: 0
+  - productId: com.rumbax.starter_pack
+    displayName: Starter Pack
+    description: 500 Gems + 5000 Gold + Rare Defender
+    price: 4.99
+    gemAmount: 500
+    goldAmount: 5000
+    includesRareDefender: 1
+    productType: 1
+  - productId: com.rumbax.no_ads
+    displayName: Remove Ads
+    description: Permanently remove all ads
+    price: 2.99
+    productType: 1
+  subscriptions:
+  - productId: com.rumbax.vip_weekly
+    displayName: VIP Weekly
+    description: Double offline earnings, Daily gems, No ads
+    price: 2.99
+    dailyGems: 50
+    offlineMultiplier: 2.0
+    noAds: 1
+    subscriptionType: 0
+  - productId: com.rumbax.vip_monthly
+    displayName: VIP Monthly
+    description: Triple offline earnings, Daily gems, No ads, Exclusive skins
+    price: 9.99
+    dailyGems: 100
+    offlineMultiplier: 3.0
+    noAds: 1
+    exclusiveSkins: 1
+    subscriptionType: 1

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0, type: 0}
+  m_Name: EnemyConfig_Boss
+  m_EditorClassIdentifier: 
+  enemyType: 3
+  enemyName: Demon Lord
+  description: Massive boss enemy with special abilities
+  baseHealth: 1000
+  baseMoveSpeed: 0.8
+  baseArmor: 20
+  healthPerWave: 200
+  armorPerWave: 5
+  goldReward: 100
+  spawnWeight: 5
+  isBoss: 1
+  bossAbilityCooldown: 5

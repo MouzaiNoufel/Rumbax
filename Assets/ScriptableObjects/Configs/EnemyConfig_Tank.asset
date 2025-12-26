@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0, type: 0}
+  m_Name: EnemyConfig_Tank
+  m_EditorClassIdentifier: 
+  enemyType: 2
+  enemyName: Orc Warrior
+  description: Slow heavily armored enemy that absorbs damage
+  baseHealth: 300
+  baseMoveSpeed: 1.0
+  baseArmor: 10
+  healthPerWave: 40
+  armorPerWave: 1.5
+  goldReward: 25
+  spawnWeight: 15

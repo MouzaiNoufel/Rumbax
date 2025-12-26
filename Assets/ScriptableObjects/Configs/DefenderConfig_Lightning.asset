@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0, type: 0}
+  m_Name: DefenderConfig_Lightning
+  m_EditorClassIdentifier: 
+  defenderType: 5
+  defenderName: Lightning Mage
+  description: Chain lightning attacks that jump between enemies
+  baseDamage: 20
+  baseAttackSpeed: 0.9
+  baseRange: 5
+  damagePerLevel: 7
+  attackSpeedPerLevel: 0.07
+  rangePerLevel: 0.3
+  rarity: 2
+  spawnWeight: 12
+  projectileType: 4
+  chainCount: 3
+  chainDamageReduction: 0.2
