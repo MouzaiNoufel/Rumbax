@@ -191,9 +191,9 @@ namespace Rumbax.Systems
             UpdateProgress("waves_100", _playerData.Statistics.TotalWavesCompleted);
             UpdateProgress("waves_1000", _playerData.Statistics.TotalWavesCompleted);
 
-            UpdateProgress("earn_10000", _playerData.Statistics.TotalCoinsEarned);
-            UpdateProgress("earn_100000", _playerData.Statistics.TotalCoinsEarned);
-            UpdateProgress("earn_1000000", _playerData.Statistics.TotalCoinsEarned);
+            UpdateProgress("earn_10000", (int)System.Math.Min(_playerData.Statistics.TotalCoinsEarned, int.MaxValue));
+            UpdateProgress("earn_100000", (int)System.Math.Min(_playerData.Statistics.TotalCoinsEarned, int.MaxValue));
+            UpdateProgress("earn_1000000", (int)System.Math.Min(_playerData.Statistics.TotalCoinsEarned, int.MaxValue));
 
             UpdateProgress("complete_level_10", _playerData.HighestLevel);
             UpdateProgress("complete_level_50", _playerData.HighestLevel);

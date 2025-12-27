@@ -17,6 +17,8 @@ namespace Rumbax.Core.Services
         // Additional methods for UI
         void LoadLeaderboard(Systems.LeaderboardType type, Action<List<LeaderboardEntry>> callback = null);
         string GetPlayerDisplayName();
+        void GetPlayerRank(Systems.LeaderboardType type, Action<int> callback);
+        string GetPlayerId();
     }
 
     [Serializable]

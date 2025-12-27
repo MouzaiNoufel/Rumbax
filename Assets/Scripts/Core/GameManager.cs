@@ -37,6 +37,15 @@ namespace Rumbax.Core
         public GameState CurrentState { get; private set; } = GameState.Menu;
         public bool IsInitialized { get; private set; }
         public bool IsPaused { get; private set; }
+        
+        public int CurrentLevel
+        {
+            get
+            {
+                var saveService = ServiceLocator.Get<ISaveService>();
+                return saveService?.GetPlayerData()?.CurrentLevel ?? 1;
+            }
+        }
 
         private void Awake()
         {

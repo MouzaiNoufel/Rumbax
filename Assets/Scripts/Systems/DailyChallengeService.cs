@@ -379,11 +379,11 @@ namespace Rumbax.Systems
             {
                 if (evt.Delta > 0)
                 {
-                    UpdateChallengeProgress(ChallengeType.EarnCoins, evt.Delta);
+                    UpdateChallengeProgress(ChallengeType.EarnCoins, (int)evt.Delta);
                 }
                 else
                 {
-                    UpdateChallengeProgress(ChallengeType.SpendCoins, -evt.Delta);
+                    UpdateChallengeProgress(ChallengeType.SpendCoins, (int)(-evt.Delta));
                 }
             }
         }
