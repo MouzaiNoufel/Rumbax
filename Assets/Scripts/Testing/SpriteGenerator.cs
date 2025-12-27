@@ -4,29 +4,38 @@ using System.Collections.Generic;
 namespace Rumbax.Testing
 {
     /// <summary>
-    /// Generates placeholder sprites at runtime for testing without art assets.
+    /// Generates modern placeholder sprites at runtime for testing without art assets.
     /// </summary>
     public static class SpriteGenerator
     {
         private static Dictionary<string, Sprite> _cachedSprites = new Dictionary<string, Sprite>();
 
-        // Defender tier colors (tier 1-5)
+        // Modern defender tier colors (tier 1-5) - vibrant gradients
         public static readonly Color[] DefenderColors = new Color[]
         {
-            new Color(0.4f, 0.7f, 0.4f),   // Tier 1: Green
-            new Color(0.4f, 0.5f, 0.8f),   // Tier 2: Blue
-            new Color(0.7f, 0.4f, 0.7f),   // Tier 3: Purple
-            new Color(0.9f, 0.6f, 0.2f),   // Tier 4: Orange
-            new Color(0.9f, 0.2f, 0.2f),   // Tier 5: Red (Legendary)
+            new Color(0.3f, 0.85f, 0.5f),   // Tier 1: Emerald Green
+            new Color(0.3f, 0.6f, 1f),      // Tier 2: Ocean Blue
+            new Color(0.7f, 0.3f, 0.9f),    // Tier 3: Violet Purple
+            new Color(1f, 0.6f, 0.1f),      // Tier 4: Golden Orange
+            new Color(1f, 0.2f, 0.3f),      // Tier 5: Ruby Red (Legendary)
         };
 
-        // Enemy type colors
+        public static readonly Color[] DefenderGlowColors = new Color[]
+        {
+            new Color(0.5f, 1f, 0.7f, 0.5f),
+            new Color(0.5f, 0.8f, 1f, 0.5f),
+            new Color(0.85f, 0.5f, 1f, 0.5f),
+            new Color(1f, 0.8f, 0.3f, 0.5f),
+            new Color(1f, 0.4f, 0.5f, 0.6f),
+        };
+
+        // Enemy type colors - darker, menacing
         public static readonly Color[] EnemyColors = new Color[]
         {
-            new Color(0.3f, 0.3f, 0.3f),   // Basic: Gray
-            new Color(0.5f, 0.3f, 0.1f),   // Tank: Brown
-            new Color(0.2f, 0.5f, 0.5f),   // Fast: Teal
-            new Color(0.6f, 0.1f, 0.1f),   // Boss: Dark Red
+            new Color(0.4f, 0.35f, 0.45f),  // Basic: Dark Gray-Purple
+            new Color(0.5f, 0.35f, 0.25f),  // Tank: Brown
+            new Color(0.25f, 0.55f, 0.5f),  // Fast: Teal
+            new Color(0.7f, 0.15f, 0.2f),   // Boss: Crimson
         };
 
         /// <summary>
@@ -39,7 +48,7 @@ namespace Rumbax.Testing
                 return cached;
 
             Texture2D tex = new Texture2D(size, size);
-            tex.filterMode = FilterMode.Point;
+            tex.filterMode = FilterMode.Bilinear;
             
             Color[] pixels = new Color[size * size];
             for (int i = 0; i < pixels.Length; i++)
@@ -56,7 +65,71 @@ namespace Rumbax.Testing
         }
 
         /// <summary>
-        /// Creates a defender sprite with tier-based appearance.
+        /// Creates a modern grid cell with rounded corners and glow effect.
+        /// </summary>
+        public static Sprite CreateModernGridCell(int size = 64, bool highlighted = false)
+        {
+            string key = highlighted ? "modern_gridcell_highlight" : "modern_gridcell_normal";
+            if (_cachedSprites.TryGetValue(key, out Sprite cached))
+                return cached;
+
+            Texture2D tex = new Texture2D(size, size);
+            tex.filterMode = FilterMode.Bilinear;
+
+            Color fillColor = highlighted 
+                ? new Color(0.25f, 0.45f, 0.35f, 0.9f) 
+                : new Color(0.12f, 0.15f, 0.2f, 0.85f);
+            Color borderColor = highlighted 
+                ? new Color(0.4f, 0.9f, 0.5f, 1f) 
+                : new Color(0.25f, 0.3f, 0.4f, 0.8f);
+            Color innerGlow = highlighted
+                ? new Color(0.3f, 0.6f, 0.4f, 0.5f)
+                : new Color(0.2f, 0.25f, 0.35f, 0.3f);
+
+            float radius = size * 0.15f; // Corner radius
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    float distFromEdge = GetRoundedRectDistance(x, y, size, size, radius);
+                    
+                    if (distFromEdge < -3)
+                    {
+                        // Inner area with subtle gradient
+                        float gradientT = (float)y / size * 0.3f;
+                        Color c = Color.Lerp(fillColor, innerGlow, gradientT);
+                        tex.SetPixel(x, y, c);
+                    }
+                    else if (distFromEdge < 0)
+                    {
+                        // Border area
+                        tex.SetPixel(x, y, borderColor);
+                    }
+                    else if (distFromEdge < 2)
+                    {
+                        // Soft edge
+                        float alpha = 1f - (distFromEdge / 2f);
+                        Color c = borderColor;
+                        c.a *= alpha;
+                        tex.SetPixel(x, y, c);
+                    }
+                    else
+                    {
+                        tex.SetPixel(x, y, Color.clear);
+                    }
+                }
+            }
+
+            tex.Apply();
+            Sprite sprite = Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f), size);
+            sprite.name = key;
+            _cachedSprites[key] = sprite;
+            return sprite;
+        }
+
+        /// <summary>
+        /// Creates a modern defender sprite with glow and depth.
         /// </summary>
         public static Sprite CreateDefender(int tier, int size = 64)
         {
@@ -316,6 +389,56 @@ namespace Rumbax.Testing
             sprite.name = key;
             _cachedSprites[key] = sprite;
             return sprite;
+        }
+
+        /// <summary>
+        /// Creates an arrow sprite for path indicators.
+        /// </summary>
+        public static Sprite CreateArrow(int size, Color color)
+        {
+            string key = $"arrow_{ColorToHex(color)}";
+            if (_cachedSprites.TryGetValue(key, out Sprite cached))
+                return cached;
+
+            Texture2D tex = new Texture2D(size, size);
+            tex.filterMode = FilterMode.Bilinear;
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    float nx = (float)x / size;
+                    float ny = (float)y / size - 0.5f;
+                    
+                    // Arrow pointing left
+                    bool inArrow = nx < 0.7f && Mathf.Abs(ny) < (0.5f - nx * 0.5f);
+                    inArrow = inArrow || (nx >= 0.3f && nx < 0.7f && Mathf.Abs(ny) < 0.15f);
+                    
+                    tex.SetPixel(x, y, inArrow ? color : Color.clear);
+                }
+            }
+
+            tex.Apply();
+            Sprite sprite = Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f), size);
+            sprite.name = key;
+            _cachedSprites[key] = sprite;
+            return sprite;
+        }
+
+        private static float GetRoundedRectDistance(int x, int y, int width, int height, float radius)
+        {
+            float halfW = width / 2f;
+            float halfH = height / 2f;
+            float px = Mathf.Abs(x - halfW);
+            float py = Mathf.Abs(y - halfH);
+            
+            float dx = px - (halfW - radius);
+            float dy = py - (halfH - radius);
+            
+            if (dx > 0 && dy > 0)
+                return Mathf.Sqrt(dx * dx + dy * dy) - radius;
+            else
+                return Mathf.Max(px - halfW, py - halfH);
         }
 
         private static void DrawCircle(Texture2D tex, int cx, int cy, int radius, Color color)
