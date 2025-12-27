@@ -16,14 +16,14 @@ namespace Rumbax.Core.Events
     }
 
     /// <summary>
-    /// Event Bus implementation using publish-subscribe pattern.
+    /// Static Event Bus for global publish-subscribe pattern.
     /// Enables loose coupling between game systems.
     /// </summary>
-    public class EventBus : IEventBus
+    public static class EventBus
     {
-        private readonly Dictionary<Type, List<Delegate>> _handlers = new Dictionary<Type, List<Delegate>>();
+        private static readonly Dictionary<Type, List<Delegate>> _handlers = new Dictionary<Type, List<Delegate>>();
 
-        public void Subscribe<T>(Action<T> handler) where T : IGameEvent
+        public static void Subscribe<T>(Action<T> handler) where T : IGameEvent
         {
             var type = typeof(T);
             
@@ -38,7 +38,7 @@ namespace Rumbax.Core.Events
             }
         }
 
-        public void Unsubscribe<T>(Action<T> handler) where T : IGameEvent
+        public static void Unsubscribe<T>(Action<T> handler) where T : IGameEvent
         {
             var type = typeof(T);
             
@@ -48,7 +48,7 @@ namespace Rumbax.Core.Events
             }
         }
 
-        public void Publish<T>(T gameEvent) where T : IGameEvent
+        public static void Publish<T>(T gameEvent) where T : IGameEvent
         {
             var type = typeof(T);
             
@@ -69,7 +69,7 @@ namespace Rumbax.Core.Events
             }
         }
 
-        public void Clear()
+        public static void Clear()
         {
             _handlers.Clear();
         }

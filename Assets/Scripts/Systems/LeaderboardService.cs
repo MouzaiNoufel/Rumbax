@@ -95,7 +95,15 @@ namespace Rumbax.Systems
 
         public void ShowLeaderboardUI(string leaderboardId = null)
         {
-            ShowLeaderboard();
+            if (_isAuthenticated && _useGooglePlayGames)
+            {
+                Debug.Log("[Leaderboard] Showing Google Play leaderboards UI");
+                // Social.ShowLeaderboardUI();
+            }
+            else
+            {
+                Debug.Log("[Leaderboard] Google Play not available");
+            }
         }
 
         private void Start()

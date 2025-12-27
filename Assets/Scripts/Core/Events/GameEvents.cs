@@ -167,11 +167,13 @@ namespace Rumbax.Core.Events
     {
         public string DefenderType { get; }
         public int NewLevel { get; }
+        public UnityEngine.Vector3 Position { get; }
 
-        public DefenderMergedEvent(string type, int level)
+        public DefenderMergedEvent(string type, int level, UnityEngine.Vector3 position = default)
         {
             DefenderType = type;
             NewLevel = level;
+            Position = position;
         }
     }
 
@@ -182,11 +184,13 @@ namespace Rumbax.Core.Events
     {
         public string DefenderId { get; }
         public int Level { get; }
+        public UnityEngine.Vector3 Position { get; }
 
-        public DefenderSpawnedEvent(string id, int level)
+        public DefenderSpawnedEvent(string id, int level, UnityEngine.Vector3 position = default)
         {
             DefenderId = id;
             Level = level;
+            Position = position;
         }
     }
 

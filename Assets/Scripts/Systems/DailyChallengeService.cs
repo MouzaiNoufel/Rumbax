@@ -103,7 +103,7 @@ namespace Rumbax.Systems
 
         private void LoadChallenges()
         {
-            _playerData = _saveService.LoadPlayerData();
+            _playerData = _saveService.GetPlayerData();
 
             if (_playerData.DailyProgress == null)
             {
@@ -233,7 +233,7 @@ namespace Rumbax.Systems
             // Update player data
             _playerData.DailyProgress.CurrentStreak = _currentStreak;
             _playerData.DailyProgress.LastCompletionDate = _lastRefreshDate;
-            _saveService.SavePlayerData(_playerData);
+            _saveService.UpdatePlayerData(_playerData);
         }
 
         public List<Challenge> GetDailyChallenges()
@@ -411,25 +411,25 @@ namespace Rumbax.Systems
     }
 
     // Additional events for challenges
-    public class DailyChallengesRefreshedEvent
+    public class DailyChallengesRefreshedEvent : Rumbax.Core.Events.IGameEvent
     {
         public List<Challenge> Challenges;
     }
 
-    public class ChallengeCompletedEvent
+    public class ChallengeCompletedEvent : Rumbax.Core.Events.IGameEvent
     {
         public string ChallengeId;
         public string Title;
     }
 
-    public class ChallengeRewardClaimedEvent
+    public class ChallengeRewardClaimedEvent : Rumbax.Core.Events.IGameEvent
     {
         public string ChallengeId;
         public int Coins;
         public int Gems;
     }
 
-    public class AllDailyChallengesCompletedEvent
+    public class AllDailyChallengesCompletedEvent : Rumbax.Core.Events.IGameEvent
     {
         public int BonusCoins;
         public int BonusGems;

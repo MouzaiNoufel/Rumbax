@@ -157,7 +157,7 @@ namespace Rumbax.Systems
 
         private void LoadProgress()
         {
-            _playerData = _saveService.LoadPlayerData();
+            _playerData = _saveService.GetPlayerData();
 
             if (_playerData.Achievements == null)
             {
@@ -217,7 +217,7 @@ namespace Rumbax.Systems
                 });
             }
 
-            _saveService.SavePlayerData(_playerData);
+            _saveService.UpdatePlayerData(_playerData);
         }
 
         private void SubscribeToEvents()

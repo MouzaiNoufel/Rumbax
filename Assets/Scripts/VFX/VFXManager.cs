@@ -144,7 +144,7 @@ namespace Rumbax.VFX
             EventBus.Subscribe<CurrencyChangedEvent>(OnCurrencyChanged);
             EventBus.Subscribe<WaveStartedEvent>(e => Play(VFXType.WaveStart, Vector3.zero));
             EventBus.Subscribe<WaveCompletedEvent>(e => Play(VFXType.WaveComplete, Vector3.zero));
-            EventBus.Subscribe<Systems.AchievementUnlockedEvent>(e => Play(VFXType.AchievementUnlock, Vector3.zero));
+            EventBus.Subscribe<AchievementUnlockedEvent>(e => Play(VFXType.AchievementUnlock, Vector3.zero));
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace Rumbax.VFX
     }
 
     // Additional event for enemy hit
-    public class EnemyHitEvent
+    public class EnemyHitEvent : Rumbax.Core.Events.IGameEvent
     {
         public Vector3 Position;
         public int Damage;

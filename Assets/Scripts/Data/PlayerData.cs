@@ -53,7 +53,8 @@ namespace Rumbax.Data
         
         // Achievements
         public List<string> UnlockedAchievements = new List<string>();
-        public Dictionary<string, int> AchievementProgress = new Dictionary<string, int>();
+        public Dictionary<string, int> AchievementProgressDict = new Dictionary<string, int>();
+        public List<AchievementProgress> Achievements = new List<AchievementProgress>();
         
         // Statistics
         public PlayerStatistics Statistics = new PlayerStatistics();
@@ -127,6 +128,19 @@ namespace Rumbax.Data
     }
 
     /// <summary>
+    /// Achievement progress tracking.
+    /// </summary>
+    [Serializable]
+    public class AchievementProgress
+    {
+        public string Id;
+        public int Progress;
+        public bool IsUnlocked;
+        public bool IsRewardClaimed;
+        public DateTime UnlockDate;
+    }
+
+    /// <summary>
     /// Player statistics for analytics and achievements.
     /// </summary>
     [Serializable]
@@ -136,8 +150,10 @@ namespace Rumbax.Data
         public int TotalWins;
         public int TotalLosses;
         public int TotalEnemiesDefeated;
+        public int TotalEnemiesKilled; // Alias for TotalEnemiesDefeated
         public int TotalDefendersSpawned;
         public int TotalMerges;
+        public int TotalWavesCompleted;
         public int MaxMergeLevel;
         public long TotalCoinsEarned;
         public int TotalGemsEarned;

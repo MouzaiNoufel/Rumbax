@@ -221,11 +221,11 @@ namespace Rumbax.Audio
 
         private void LoadSettings()
         {
-            PlayerData data = _saveService?.LoadPlayerData();
+            PlayerData data = _saveService?.GetPlayerData();
             if (data?.Settings != null)
             {
                 _musicVolume = data.Settings.MusicVolume;
-                _sfxVolume = data.Settings.SFXVolume;
+                _sfxVolume = data.Settings.SfxVolume;
             }
             
             UpdateVolumes();
@@ -253,7 +253,7 @@ namespace Rumbax.Audio
             EventBus.Subscribe<GameOverEvent>(OnGameOver);
             
             // Achievement Events
-            EventBus.Subscribe<Systems.AchievementUnlockedEvent>(e => PlaySound(SoundType.AchievementUnlock));
+            EventBus.Subscribe<AchievementUnlockedEvent>(e => PlaySound(SoundType.AchievementUnlock));
             EventBus.Subscribe<Systems.ChallengeCompletedEvent>(e => PlaySound(SoundType.ChallengeComplete));
         }
 
@@ -531,12 +531,12 @@ namespace Rumbax.Audio
 
         private void SaveSettings()
         {
-            PlayerData data = _saveService?.LoadPlayerData();
+            PlayerData data = _saveService?.GetPlayerData();
             if (data?.Settings != null)
             {
                 data.Settings.MusicVolume = _musicVolume;
-                data.Settings.SFXVolume = _sfxVolume;
-                _saveService.SavePlayerData(data);
+                data.Settings.SfxVolume = _sfxVolume;
+                _saveService.UpdatePlayerData(data);
             }
         }
 
@@ -582,5 +582,5 @@ namespace Rumbax.Audio
     }
 
     // Additional events for audio triggers
-    public class ButtonClickEvent { }
+    public class ButtonClickEvent : Core.Events.IGameEvent { }
 }
