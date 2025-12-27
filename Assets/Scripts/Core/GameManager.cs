@@ -62,7 +62,7 @@ namespace Rumbax.Core
             
             // Register core services
             ServiceLocator.Register<ISaveService>(new SaveService());
-            ServiceLocator.Register<IEventBus>(new EventBus());
+            // EventBus is now static, no registration needed
             ServiceLocator.Register<ICurrencyService>(new CurrencyService());
             ServiceLocator.Register<IAudioService>(GetComponent<AudioService>() ?? gameObject.AddComponent<AudioService>());
             

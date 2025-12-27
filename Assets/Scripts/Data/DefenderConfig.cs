@@ -42,7 +42,7 @@ namespace Rumbax.Data
         public bool UnlockedByDefault;
         public int UnlockLevel;
         public int UnlockCost;
-        public CurrencyType UnlockCurrencyType;
+        public Rumbax.Core.Events.CurrencyType UnlockCurrencyType;
         
         [Header("Audio")]
         public AudioClip AttackSound;
@@ -118,9 +118,5 @@ namespace Rumbax.Data
         Chain
     }
 
-    public enum CurrencyType
-    {
-        Coins,
-        Gems
-    }
+    // CurrencyType is defined in Rumbax.Core.Events namespace
 }

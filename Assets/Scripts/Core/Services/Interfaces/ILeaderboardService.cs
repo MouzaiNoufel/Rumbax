@@ -13,6 +13,10 @@ namespace Rumbax.Core.Services
         void GetTopScores(string leaderboardId, int count, Action<List<LeaderboardEntry>> callback);
         void GetPlayerScore(string leaderboardId, Action<LeaderboardEntry> callback);
         void ShowLeaderboardUI(string leaderboardId = null);
+        
+        // Additional methods for UI
+        void LoadLeaderboard(Systems.LeaderboardType type, Action<List<LeaderboardEntry>> callback = null);
+        string GetPlayerDisplayName();
     }
 
     [Serializable]

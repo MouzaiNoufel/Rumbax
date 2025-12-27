@@ -545,11 +545,11 @@ namespace Rumbax.Audio
         {
             if (evt.Delta > 0)
             {
-                if (evt.Type == CurrencyType.Coins)
+                if (evt.Type == Rumbax.Core.Events.CurrencyType.Coins)
                 {
                     PlaySound(SoundType.CoinCollect);
                 }
-                else if (evt.Type == CurrencyType.Gems)
+                else if (evt.Type == Rumbax.Core.Events.CurrencyType.Gems)
                 {
                     PlaySound(SoundType.GemCollect);
                 }

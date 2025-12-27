@@ -544,18 +544,18 @@ namespace Rumbax.Systems
 
         private void OnCurrencyChanged(CurrencyChangedEvent evt)
         {
-            if (evt.Type == CurrencyType.Coins)
+            if (evt.Type == Rumbax.Core.Events.CurrencyType.Coins)
             {
-                if (evt.Amount > 0)
+                if (evt.Delta > 0)
                 {
-                    IncrementProgress("earn_10000", evt.Amount);
-                    IncrementProgress("earn_100000", evt.Amount);
-                    IncrementProgress("earn_1000000", evt.Amount);
+                    IncrementProgress("earn_10000", (int)evt.Delta);
+                    IncrementProgress("earn_100000", (int)evt.Delta);
+                    IncrementProgress("earn_1000000", (int)evt.Delta);
                 }
-                else
+                else if (evt.Delta < 0)
                 {
-                    IncrementProgress("spend_50000", -evt.Amount);
-                    IncrementProgress("spend_500000", -evt.Amount);
+                    IncrementProgress("spend_50000", (int)(-evt.Delta));
+                    IncrementProgress("spend_500000", (int)(-evt.Delta));
                 }
             }
         }

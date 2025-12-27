@@ -31,7 +31,7 @@ namespace Rumbax.Gameplay
         public int CoinsEarned => _coinsEarned;
         public float LevelDuration => Time.time - _levelStartTime;
         
-        private IEventBus _eventBus;
+        // EventBus is now static, no field needed
         private ICurrencyService _currencyService;
 
         private void Awake()
@@ -41,7 +41,6 @@ namespace Rumbax.Gameplay
 
         private void Start()
         {
-            _eventBus = ServiceLocator.Get<IEventBus>();
             _currencyService = ServiceLocator.Get<ICurrencyService>();
             
             SubscribeToEvents();
@@ -64,11 +63,9 @@ namespace Rumbax.Gameplay
 
         private void SubscribeToEvents()
         {
-            if (_eventBus == null) return;
-            
-            _eventBus.Subscribe<EnemyDefeatedEvent>(OnEnemyDefeated);
-            _eventBus.Subscribe<WaveCompletedEvent>(OnWaveCompleted);
-            _eventBus.Subscribe<DefenderMergedEvent>(OnDefenderMerged);
+            EventBus.Subscribe<EnemyDefeatedEvent>(OnEnemyDefeated);
+            EventBus.Subscribe<WaveCompletedEvent>(OnWaveCompleted);
+            EventBus.Subscribe<DefenderMergedEvent>(OnDefenderMerged);
             
             if (waveManager != null)
             {
@@ -79,12 +76,9 @@ namespace Rumbax.Gameplay
 
         private void OnDestroy()
         {
-            if (_eventBus != null)
-            {
-                _eventBus.Unsubscribe<EnemyDefeatedEvent>(OnEnemyDefeated);
-                _eventBus.Unsubscribe<WaveCompletedEvent>(OnWaveCompleted);
-                _eventBus.Unsubscribe<DefenderMergedEvent>(OnDefenderMerged);
-            }
+            EventBus.Unsubscribe<EnemyDefeatedEvent>(OnEnemyDefeated);
+            EventBus.Unsubscribe<WaveCompletedEvent>(OnWaveCompleted);
+            EventBus.Unsubscribe<DefenderMergedEvent>(OnDefenderMerged);
             
             if (waveManager != null)
             {
@@ -107,7 +101,7 @@ namespace Rumbax.Gameplay
             ServiceLocator.Get<IAnalyticsService>()?.LogLevelStart(levelNumber);
             
             // Publish event
-            _eventBus?.Publish(new LevelStartedEvent(levelNumber));
+            EventBus.Publish(new LevelStartedEvent(levelNumber));
             
             GameManager.Instance?.ChangeState(GameState.Playing);
             
@@ -205,7 +199,7 @@ namespace Rumbax.Gameplay
                 levelNumber, _score, LevelDuration);
             
             // Publish event
-            _eventBus?.Publish(new LevelCompletedEvent(levelNumber, stars, _score, _coinsEarned));
+            EventBus.Publish(new LevelCompletedEvent(levelNumber, stars, _score, _coinsEarned));
             
             Debug.Log($"[LevelController] Level {levelNumber} complete! Score: {_score}, Stars: {stars}");
         }
@@ -245,13 +239,13 @@ namespace Rumbax.Gameplay
                 levelProgress.TimesPlayed++;
                 levelProgress.TimesCompleted++;
                 levelProgress.Stars = Mathf.Max(levelProgress.Stars, stars);
-                levelProgress.HighScore = Mathf.Max(levelProgress.HighScore, _score);
+                levelProgress.HighScore = System.Math.Max(levelProgress.HighScore, _score);
                 levelProgress.BestTime = levelProgress.BestTime > 0 ? 
                     Mathf.Min(levelProgress.BestTime, LevelDuration) : LevelDuration;
                 
                 // Update player stats
                 data.TotalScore += _score;
-                data.HighScore = Mathf.Max(data.HighScore, _score);
+                data.HighScore = System.Math.Max(data.HighScore, _score);
                 data.TotalStars += stars;
                 data.HighestLevel = Mathf.Max(data.HighestLevel, levelNumber + 1);
                 data.Statistics.TotalWins++;

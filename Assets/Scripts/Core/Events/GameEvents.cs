@@ -89,6 +89,7 @@ namespace Rumbax.Core.Events
     public class LevelCompletedEvent : IGameEvent
     {
         public int LevelNumber { get; }
+        public int Level => LevelNumber;
         public int Stars { get; }
         public long Score { get; }
         public long CoinsEarned { get; }
@@ -138,10 +139,12 @@ namespace Rumbax.Core.Events
     public class WaveCompletedEvent : IGameEvent
     {
         public int WaveNumber { get; }
+        public bool PerfectWave { get; }
 
-        public WaveCompletedEvent(int wave)
+        public WaveCompletedEvent(int wave, bool perfect = false)
         {
             WaveNumber = wave;
+            PerfectWave = perfect;
         }
     }
 

@@ -375,15 +375,15 @@ namespace Rumbax.Systems
 
         private void OnCurrencyChanged(CurrencyChangedEvent evt)
         {
-            if (evt.Type == CurrencyType.Coins)
+            if (evt.Type == Rumbax.Core.Events.CurrencyType.Coins)
             {
-                if (evt.Amount > 0)
+                if (evt.Delta > 0)
                 {
-                    UpdateChallengeProgress(ChallengeType.EarnCoins, evt.Amount);
+                    UpdateChallengeProgress(ChallengeType.EarnCoins, evt.Delta);
                 }
                 else
                 {
-                    UpdateChallengeProgress(ChallengeType.SpendCoins, -evt.Amount);
+                    UpdateChallengeProgress(ChallengeType.SpendCoins, -evt.Delta);
                 }
             }
         }
