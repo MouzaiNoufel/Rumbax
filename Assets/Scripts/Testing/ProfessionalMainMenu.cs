@@ -499,7 +499,7 @@ namespace Rumbax.Testing
             // Show sample achievements
             if (AchievementSystem.Instance != null)
             {
-                var achievements = AchievementSystem.Instance.GetAchievementsByCategory(AchievementCategory.Combat);
+                var achievements = AchievementSystem.Instance.GetAchievementsByCategory(AchievementCategoryType.Combat);
                 float y = 280f;
                 
                 foreach (var ach in achievements)
@@ -795,7 +795,7 @@ namespace Rumbax.Testing
             }
         }
 
-        private void CreateAchievementCard(Achievement ach, Vector2 position, Transform parent)
+        private void CreateAchievementCard(AchievementEntry ach, Vector2 position, Transform parent)
         {
             Color cardColor = ach.isCompleted && !ach.isRewardClaimed 
                 ? new Color(0.2f, 0.3f, 0.2f, 0.9f)

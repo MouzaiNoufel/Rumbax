@@ -86,7 +86,7 @@ namespace Rumbax.Testing
                 baseDamage *= SkillTreeSystem.Instance.GetDamageMultiplier();
                 baseCoin *= SkillTreeSystem.Instance.GetCoinMultiplier();
                 baseCrit += SkillTreeSystem.Instance.GetCritChanceBonus();
-                baseCritDmg += SkillTreeSystem.Instance.GetCritDamageBonus();
+                baseCritDmg = SkillTreeSystem.Instance.GetCritDamageMultiplier();
             }
 
             // Prestige bonuses
@@ -103,7 +103,7 @@ namespace Rumbax.Testing
                 var hero = HeroSystem.Instance.GetSelectedHero();
                 if (hero != null)
                 {
-                    baseDamage *= hero.attackMultiplier;
+                    baseDamage *= (hero.baseDamage / 100f);
                     // Additional hero-specific bonuses could be applied here
                 }
             }
@@ -111,9 +111,11 @@ namespace Rumbax.Testing
             // Game mode modifiers
             if (GameModeSystem.Instance != null)
             {
-                var modifier = GameModeSystem.Instance.GetCurrentModifier();
-                baseDamage *= modifier.playerDamageMultiplier;
-                baseCoin *= modifier.coinMultiplier;
+                var modeData = GameModeSystem.Instance.GetCurrentModeData();
+                if (modeData != null)
+                {
+                    baseCoin *= modeData.coinMultiplier;
+                }
             }
 
             _damageMultiplier = baseDamage;
@@ -197,7 +199,7 @@ namespace Rumbax.Testing
             SimpleAudioManager.Instance?.PlayHit();
             if (_currentCombo >= 10 && _currentCombo % 10 == 0)
             {
-                SimpleAudioManager.Instance?.PlayCombo();
+                SimpleAudioManager.Instance?.PlaySuccess();
             }
 
             // Update systems
@@ -220,7 +222,7 @@ namespace Rumbax.Testing
                 _sessionBossKills++;
                 AchievementSystem.Instance?.OnBossKilled();
                 QuestSystem.Instance?.OnBossKilled();
-                VFXSystem.Instance?.OnBossKilled(position);
+                VFXSystem.Instance?.OnEnemyDeath(position, true);
                 SimpleAudioManager.Instance?.PlayVictory();
             }
         }
@@ -230,7 +232,7 @@ namespace Rumbax.Testing
             _sessionMerges++;
 
             // VFX
-            VFXSystem.Instance?.OnMerge(position);
+            VFXSystem.Instance?.OnMerge(position, newTier);
             if (newTier >= 5)
             {
                 VFXSystem.Instance?.ShowCenterText($"TIER {newTier}!", new Color(0.8f, 0.3f, 1f), 1.2f);
@@ -252,7 +254,7 @@ namespace Rumbax.Testing
             PrestigeSystem.Instance?.RecordWave(wave);
 
             // VFX
-            VFXSystem.Instance?.OnWaveComplete();
+            VFXSystem.Instance?.OnWaveComplete(wave);
             VFXSystem.Instance?.ShowCenterText($"WAVE {wave} COMPLETE!", Color.cyan, 2f);
 
             // Sound
@@ -300,13 +302,13 @@ namespace Rumbax.Testing
             _ultimateCharge = 0f;
 
             // Massive VFX
-            VFXSystem.Instance?.OnUltimate(position);
-            VFXSystem.Instance?.ScreenFlash(new Color(1f, 0.9f, 0.5f, 0.5f), 0.5f);
+            VFXSystem.Instance?.OnUltimate();
+            VFXSystem.Instance?.FlashScreen(new Color(1f, 0.9f, 0.5f, 0.5f), 0.5f);
             VFXSystem.Instance?.ScreenShake(0.8f, 0.5f);
             VFXSystem.Instance?.ShowCenterText("⚡ ULTIMATE! ⚡", new Color(1f, 0.8f, 0.2f), 2f);
 
             // Sound
-            SimpleAudioManager.Instance?.PlayUltimate();
+            SimpleAudioManager.Instance?.PlayVictory();
 
             // Update systems
             AchievementSystem.Instance?.OnUltimateUsed();
@@ -368,7 +370,7 @@ namespace Rumbax.Testing
             // VFX
             if (victory)
             {
-                VFXSystem.Instance?.ScreenFlash(new Color(0.5f, 1f, 0.5f, 0.3f), 1f);
+                VFXSystem.Instance?.FlashScreen(new Color(0.5f, 1f, 0.5f, 0.3f), 1f);
                 VFXSystem.Instance?.ShowCenterText("VICTORY!", Color.green, 3f);
                 SimpleAudioManager.Instance?.PlayVictory();
             }
@@ -393,8 +395,8 @@ namespace Rumbax.Testing
             _feverMultiplier = 2f;
 
             VFXSystem.Instance?.ShowCenterText("🔥 FEVER MODE! 🔥", new Color(1f, 0.3f, 0f), 2f);
-            VFXSystem.Instance?.ScreenFlash(new Color(1f, 0.5f, 0f, 0.3f), 0.5f);
-            SimpleAudioManager.Instance?.PlayCombo();
+            VFXSystem.Instance?.FlashScreen(new Color(1f, 0.5f, 0f, 0.3f), 0.5f);
+            SimpleAudioManager.Instance?.PlaySuccess();
 
             yield return new WaitForSeconds(duration);
 
@@ -433,7 +435,7 @@ namespace Rumbax.Testing
 
         // === EVENT HANDLERS ===
 
-        private void OnAchievementCompleted(Achievement achievement)
+        private void OnAchievementCompleted(AchievementEntry achievement)
         {
             VFXSystem.Instance?.ShowCenterText($"🏆 {achievement.name}", 
                 AchievementSystem.TierColors[achievement.tier], 2f);
@@ -450,7 +452,7 @@ namespace Rumbax.Testing
         {
             VFXSystem.Instance?.ShowCenterText($"Battle Pass Lv.{newLevel}!", 
                 new Color(1f, 0.8f, 0.2f), 2f);
-            VFXSystem.Instance?.ScreenFlash(new Color(1f, 0.9f, 0.5f, 0.3f), 0.5f);
+            VFXSystem.Instance?.FlashScreen(new Color(1f, 0.9f, 0.5f, 0.3f), 0.5f);
             SimpleAudioManager.Instance?.PlayVictory();
         }
 

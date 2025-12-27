@@ -530,6 +530,35 @@ namespace Rumbax.Systems
             SaveHeroProgress();
         }
 
+        public void AddFragments(string heroId, int amount)
+        {
+            HeroData hero = _allHeroes.Find(h => h.id == heroId);
+            if (hero == null) return;
+
+            int currentFragments = PlayerPrefs.GetInt($"Hero_{heroId}_Fragments", 0);
+            currentFragments += amount;
+            PlayerPrefs.SetInt($"Hero_{heroId}_Fragments", currentFragments);
+
+            // Auto-unlock if enough fragments (50 for common, 100 for rare, etc.)
+            int requiredFragments = ((int)hero.rarity + 1) * 50;
+            if (!hero.isUnlocked && currentFragments >= requiredFragments)
+            {
+                UnlockHero(heroId);
+            }
+
+            PlayerPrefs.Save();
+        }
+
+        public void UnlockHero(string heroId)
+        {
+            HeroData hero = _allHeroes.Find(h => h.id == heroId);
+            if (hero == null || hero.isUnlocked) return;
+
+            hero.isUnlocked = true;
+            SaveHeroProgress();
+            Debug.Log($"[HeroSystem] Hero unlocked: {hero.displayName}");
+        }
+
         private void SaveHeroProgress()
         {
             foreach (var hero in _allHeroes)

@@ -245,7 +245,7 @@ namespace Rumbax.Systems
             return false;
         }
 
-        private void AddLuckySpins(int amount)
+        public void AddLuckySpins(int amount)
         {
             int current = PlayerPrefs.GetInt("LuckySpins", 0);
             PlayerPrefs.SetInt("LuckySpins", current + amount);

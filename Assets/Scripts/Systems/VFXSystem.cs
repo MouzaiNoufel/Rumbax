@@ -138,7 +138,7 @@ namespace Rumbax.Systems
 
                 SpriteRenderer sr = particle.GetComponent<SpriteRenderer>();
                 if (sr == null) sr = particle.AddComponent<SpriteRenderer>();
-                sr.sprite = Testing.SpriteGenerator.CreateCircle(16, color);
+                sr.sprite = Testing.SpriteGenerator.CreateSquare(16, color);
                 sr.sortingOrder = 100;
 
                 float angle = (360f / particleCount) * i + UnityEngine.Random.Range(-15f, 15f);
@@ -242,7 +242,7 @@ namespace Rumbax.Systems
 
                 SpriteRenderer sr = coin.GetComponent<SpriteRenderer>();
                 if (sr == null) sr = coin.AddComponent<SpriteRenderer>();
-                sr.sprite = Testing.SpriteGenerator.CreateCircle(12, goldColor);
+                sr.sprite = Testing.SpriteGenerator.CreateSquare(12, goldColor);
                 sr.sortingOrder = 100;
 
                 Vector3 velocity = new Vector3(
@@ -309,7 +309,7 @@ namespace Rumbax.Systems
 
                     SpriteRenderer sr = point.GetComponent<SpriteRenderer>();
                     if (sr == null) sr = point.AddComponent<SpriteRenderer>();
-                    sr.sprite = Testing.SpriteGenerator.CreateCircle(8, color);
+                    sr.sprite = Testing.SpriteGenerator.CreateSquare(8, color);
                     sr.sortingOrder = 50;
 
                     trailPoints.Add(point);
