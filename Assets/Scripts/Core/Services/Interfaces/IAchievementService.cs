@@ -16,6 +16,14 @@ namespace Rumbax.Core.Services
         void GetAchievements(Action<List<AchievementData>> callback);
         void ShowAchievementsUI();
         bool IsUnlocked(string achievementId);
+        
+        // Additional methods for UI
+        int GetUnlockedCount();
+        int GetTotalCount();
+        int GetUnclaimedCount();
+        List<Systems.Achievement> GetAllAchievements();
+        List<Systems.Achievement> GetAchievementsByCategory(Systems.AchievementCategory category);
+        bool ClaimReward(string achievementId);
     }
 
     [Serializable]

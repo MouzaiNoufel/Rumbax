@@ -260,7 +260,7 @@ namespace Rumbax.VFX
             if (evt.IsBoss)
             {
                 Play(VFXType.BossDeath, evt.Position);
-                PlayCoinBurst(evt.Position, evt.CoinReward);
+                PlayCoinBurst(evt.Position, (int)evt.CoinReward);
             }
             else
             {
@@ -270,7 +270,7 @@ namespace Rumbax.VFX
 
         private void OnCurrencyChanged(CurrencyChangedEvent evt)
         {
-            if (evt.Amount <= 0) return;
+            if (evt.Delta <= 0) return;
             
             // Currency pickup VFX is typically handled by the entity that grants it
             // This is for UI feedback

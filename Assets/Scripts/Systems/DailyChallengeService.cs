@@ -107,7 +107,7 @@ namespace Rumbax.Systems
 
             if (_playerData.DailyProgress == null)
             {
-                _playerData.DailyProgress = new DailyChallengeProgress
+                _playerData.DailyProgress = new DailyProgressData
                 {
                     CurrentStreak = 0,
                     LastCompletionDate = DateTime.MinValue

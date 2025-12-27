@@ -281,14 +281,17 @@ namespace Rumbax.Core.Events
         public string EnemyId { get; }
         public string EnemyType { get; }
         public long CoinsDropped { get; }
+        public long CoinReward => CoinsDropped;
         public bool IsBoss { get; }
+        public UnityEngine.Vector3 Position { get; }
 
-        public EnemyKilledEvent(string enemyId, string enemyType, long coins, bool isBoss = false)
+        public EnemyKilledEvent(string enemyId, string enemyType, long coins, bool isBoss = false, UnityEngine.Vector3 position = default)
         {
             EnemyId = enemyId;
             EnemyType = enemyType;
             CoinsDropped = coins;
             IsBoss = isBoss;
+            Position = position;
         }
     }
 

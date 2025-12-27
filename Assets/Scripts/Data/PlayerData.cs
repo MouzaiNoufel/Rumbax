@@ -50,6 +50,7 @@ namespace Rumbax.Data
         public int LoginStreak;
         public DateTime LastLoginDate;
         public List<DailyChallengeProgress> DailyChallenges = new List<DailyChallengeProgress>();
+        public DailyProgressData DailyProgress = new DailyProgressData();
         
         // Achievements
         public List<string> UnlockedAchievements = new List<string>();
@@ -125,6 +126,19 @@ namespace Rumbax.Data
         public bool IsCompleted;
         public bool RewardClaimed;
         public DateTime ExpiryTime;
+        public int CurrentStreak;
+        public DateTime LastCompletionDate;
+    }
+
+    /// <summary>
+    /// Daily progress tracking (streak, last completion, etc.)
+    /// </summary>
+    [Serializable]
+    public class DailyProgressData
+    {
+        public int CurrentStreak;
+        public DateTime LastCompletionDate;
+        public List<string> CompletedChallengeIds = new List<string>();
     }
 
     /// <summary>
