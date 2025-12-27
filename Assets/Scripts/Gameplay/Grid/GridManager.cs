@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Rumbax.Core;
 using Rumbax.Core.Services;
 using Rumbax.Core.Events;
 using Rumbax.Data;

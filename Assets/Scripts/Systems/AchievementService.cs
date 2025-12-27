@@ -567,7 +567,7 @@ namespace Rumbax.Systems
 
         private void OnSubscriptionChanged(SubscriptionChangedEvent evt)
         {
-            if (evt.IsActive)
+            if (evt.IsSubscribed)
             {
                 UnlockAchievement("subscriber");
             }
